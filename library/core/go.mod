@@ -4,6 +4,9 @@ go 1.26
 
 require github.com/exclavenetwork/libexclavecore v0.0.0-20260706065155-3ce7b5da07bb
 
+tool golang.org/x/mobile/cmd/gobind
+require golang.org/x/mobile v0.0.0-20260611195102-4dd8f1dbf5d2
+
 require (
 	filippo.io/age v1.3.1 // indirect
 	filippo.io/hpke v0.4.0 // indirect
