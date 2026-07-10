@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="snell_version">Snell version</string>
+    <string name="snell_reuse">Connection reuse</string>
+    <string name="snell_reuse_summary">Use CommandConnectV2 to reuse the TCP connection</string>
+    <string name="protocol_snell">Snell</string>
+</resources>
