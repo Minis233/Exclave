@@ -1748,8 +1748,10 @@ fun buildV2RayConfig(
                                     port = bean.serverPort
                                     psk = bean.psk
                                     obfs = bean.obfs
+                                    obfsHost = bean.obfsHost
                                     version = bean.version
                                     reuse = bean.reuse
+                                    mode = bean.mode
                                 })
                             } else if (bean is MieruBean) {
                                 protocol = "mieru"

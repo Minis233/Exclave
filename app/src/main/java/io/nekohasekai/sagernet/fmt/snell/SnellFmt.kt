@@ -1,7 +1,6 @@
 /******************************************************************************
- * Snell share-link helpers for Exclave.
- * snell://psk@host:port?version=4&obfs=off&obfs-host=#name
- * (compatible with common Clash / Surge-style query keys)
+ * Snell share-link helpers for Exclave (v3–v6).
+ * snell://psk@host:port?version=6&obfs=tls&obfs-host=...&mode=default&reuse=1#name
  ******************************************************************************/
 
 package io.nekohasekai.sagernet.fmt.snell
@@ -15,7 +14,6 @@ fun parseSnell(url: String): SnellBean {
         name = link.fragment
         serverAddress = link.host.ifEmpty { error("empty host") }
         serverPort = link.port
-        // username carries psk in snell://psk@host:port form; also accept password=
         psk = when {
             link.username.isNotEmpty() -> link.username
             link.password.isNotEmpty() -> link.password
@@ -23,8 +21,10 @@ fun parseSnell(url: String): SnellBean {
         }
         link.queryParameter("version")?.toIntOrNull()?.also { version = it }
         link.queryParameter("obfs")?.also { obfs = it }
-        // some generators put obfs mode in "obfs-mode"
         link.queryParameter("obfs-mode")?.also { obfs = it }
+        link.queryParameter("obfs-host")?.also { obfsHost = it }
+        link.queryParameter("host")?.also { if (obfsHost.isNullOrEmpty()) obfsHost = it }
+        link.queryParameter("mode")?.also { mode = it }
         link.queryParameter("reuse")?.also {
             reuse = it == "1" || it.equals("true", ignoreCase = true)
         }
@@ -41,8 +41,14 @@ fun SnellBean.toUri(): String? {
         }
     }
     builder.addQueryParameter("version", (version ?: 4).toString())
-    if (!obfs.isNullOrEmpty() && obfs != SnellBean.OBFS_OFF) {
+    if (!obfs.isNullOrEmpty() && obfs != SnellBean.OBFS_OFF && obfs != "none") {
         builder.addQueryParameter("obfs", obfs)
+    }
+    if (!obfsHost.isNullOrEmpty()) {
+        builder.addQueryParameter("obfs-host", obfsHost)
+    }
+    if ((version ?: 4) >= 6 && !mode.isNullOrEmpty() && mode != SnellBean.MODE_DEFAULT) {
+        builder.addQueryParameter("mode", mode)
     }
     if (reuse == true) {
         builder.addQueryParameter("reuse", "1")

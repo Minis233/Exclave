@@ -994,8 +994,10 @@ public class V2RayConfig {
         public Integer port;
         public String psk;
         public String obfs;
+        public String obfsHost;
         public Integer version;
         public Boolean reuse;
+        public String mode;
 
     }
 

@@ -23,35 +23,49 @@ import io.nekohasekai.sagernet.fmt.KryoConverters;
 
 public class SnellBean extends AbstractBean {
 
+    public static final int VERSION_3 = 3;
     public static final int VERSION_4 = 4;
     public static final int VERSION_5 = 5;
+    public static final int VERSION_6 = 6;
 
     public static final String OBFS_OFF = "off";
     public static final String OBFS_HTTP = "http";
     public static final String OBFS_TLS = "tls";
 
+    /** v6 modes: default | unshaped | unsafe-raw */
+    public static final String MODE_DEFAULT = "default";
+    public static final String MODE_UNSHAPED = "unshaped";
+    public static final String MODE_UNSAFE_RAW = "unsafe-raw";
+
     public String psk;
     public String obfs;
+    public String obfsHost;
     public Integer version;
     public Boolean reuse;
+    public String mode;
 
     @Override
     public void initializeDefaultValues() {
         super.initializeDefaultValues();
         if (psk == null) psk = "";
         if (obfs == null || obfs.isEmpty()) obfs = OBFS_OFF;
+        if (obfsHost == null) obfsHost = "";
         if (version == null || version == 0) version = VERSION_4;
         if (reuse == null) reuse = true;
+        if (mode == null || mode.isEmpty()) mode = MODE_DEFAULT;
     }
 
     @Override
     public void serialize(ByteBufferOutput output) {
-        output.writeInt(1);
+        // v2: +obfsHost +mode
+        output.writeInt(2);
         super.serialize(output);
         output.writeString(psk);
         output.writeString(obfs);
         output.writeInt(version);
         output.writeBoolean(reuse);
+        output.writeString(obfsHost);
+        output.writeString(mode);
     }
 
     @Override
@@ -63,6 +77,10 @@ public class SnellBean extends AbstractBean {
         version = input.readInt();
         if (ver >= 1) {
             reuse = input.readBoolean();
+        }
+        if (ver >= 2) {
+            obfsHost = input.readString();
+            mode = input.readString();
         }
     }
 

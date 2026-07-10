@@ -782,7 +782,9 @@ fun parseClashProxy(proxy: Map<String, Any?>): List<AbstractBean> {
                 proxy.getString("obfs")?.also { obfs = it }
                 proxy.getObject("obfs-opts")?.also { opts ->
                     opts.getString("mode")?.also { obfs = it }
+                    opts.getString("host")?.also { obfsHost = it }
                 }
+                proxy.getString("mode")?.also { mode = it }
                 name = proxy.getString("name")
             })
         }
