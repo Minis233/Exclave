@@ -17,3 +17,4 @@ jniLibs/
 go.work
 go.work.sum
 third_party/
+exclave-core/

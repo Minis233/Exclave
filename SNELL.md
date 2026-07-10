@@ -1,26 +1,22 @@
 # Snell (personal build)
 
-Branch: `feature/snell-support`
-
-- App: https://github.com/Minis233/Exclave/tree/feature/snell-support
+- App branch: `feature/snell-support`
 - Core: https://github.com/Minis233/exclave-core/tree/feature/snell-support
 
-`library/core/go.mod` replace:
+`library/core/go.mod` uses a **local** replace:
 
 ```
-replace github.com/exclavenetwork/exclave-core/v5 => github.com/Minis233/exclave-core v5.0.0-20260710024930-e59e6dd5cbaf
+replace github.com/exclavenetwork/exclave-core/v5 => ../../exclave-core
 ```
 
-Supports Snell **v4/v5** only (not v6).
-
-## Build APK (GitHub Actions)
-
-Actions → **Debug Build** → Run workflow on `feature/snell-support`.
-Artifact: `APK`.
+CI checks out `Minis233/exclave-core@feature/snell-support` into `./exclave-core`.
 
 ## Local build
 
 ```bash
-cd library/core && bash build.sh
-./gradlew :app:assembleOssDebug
+git clone -b feature/snell-support https://github.com/Minis233/Exclave.git
+git clone -b feature/snell-support https://github.com/Minis233/exclave-core.git Exclave/exclave-core
+cd Exclave && ./run lib core debug && ./gradlew :app:assembleOssDebug
 ```
+
+Snell **v4/v5** only (not v6).
