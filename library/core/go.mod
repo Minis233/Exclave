@@ -73,4 +73,4 @@ require (
 replace gvisor.dev/gvisor => gvisor.dev/gvisor v0.0.0-20250429202743-3a608a52255d
 
 // Personal Snell build: use forked exclave-core with Snell v4/v5 outbound
-replace github.com/exclavenetwork/exclave-core/v5 => github.com/Minis233/exclave-core v0.0.0-20260710024930-e59e6dd5cbaf
+replace github.com/exclavenetwork/exclave-core/v5 => github.com/Minis233/exclave-core v5.0.0-20260710024930-e59e6dd5cbaf
